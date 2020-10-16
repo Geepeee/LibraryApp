@@ -1,0 +1,18 @@
+{% extends "catalog/base.html" %}
+{% block title %}
+ <title>Home Page!</title>
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+       <h1>Local Library Home</h1>
+       <p>Welcome to local library, a website developed by guidence of <em>MDN</em></p>
+       <h2>Dynamic Content</h2>
+    </div>
+    <h3>The Library has the following counts,</h3>
+    <ul>
+      <li><strong>Total Books:</strong> {{ totalBooks}}</li>
+      <li><strong>Copies:</strong> {{ totalBookIns }}</li>
+      <li><strong>Copies Available:</strong> {{ totalBookAva }}</li>
+      <li><strong>Total Authors:</strong> {{ totalAuthor }}</li>
+    </ul>
+{% endblock %}
