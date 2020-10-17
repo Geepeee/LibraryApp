@@ -17,3 +17,21 @@ body {
   text-decoration: none;
   color: black;
 }
+
+.logio {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.logio a:hover{
+  background-color: white;
+  color: black;
+  border-radius: 5px
+}
+
+#navbarcollapse a:hover {
+  background-color: white;
+  color: black;
+  border-radius: 5px
+}

@@ -2,8 +2,10 @@ from django.shortcuts import render
 from catalog.models import Book,BookInstance,Author,Language,Genre
 from django.views.generic import ListView,DetailView
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
-
+@login_required
 def index(request):
     """View function for home page, showing the overview of the library."""
     num_books = Book.objects.all().count()
@@ -29,7 +31,7 @@ class BookListView(ListView):
     context_object_name = 'booklist'
     template_name = 'catalog/list.html'
 
-class BookDetailView(DetailView):
+class BookDetailView(LoginRequiredMixin,DetailView):
     model = Book
 
     def get(sef,request,pk):
@@ -46,11 +48,27 @@ class AuthorListView(ListView):
         ctx = {'authors': authors}
         return render(request,self.template_name,ctx)
 
-class AuthorDeatailView(DetailView):
+class AuthorDeatailView(LoginRequiredMixin,DetailView):
     model = Author
     template_name = 'catalog/authordetail.html'
     def get(self,request,pk):
         author = Author.objects.get(id=pk)
         books = Book.objects.filter(author=author.id)
         ctx = {'author': author,'books':books}
+        return render(request,self.template_name,ctx)
+
+class LoanedBooksByUser(LoginRequiredMixin,ListView):
+    model = BookInstance
+    template_name = 'catalog/loanedBooksByUser.html'
+    def get(self,request):
+        loaned = BookInstance.objects.filter(borrower=self.request.user).filter(status__exact="o").order_by('-due_back')
+        ctx = {'loanBooks':loaned}
+        return render(request,self.template_name,ctx)
+
+class LoanedBooksByAll(LoginRequiredMixin,ListView):
+    model = BookInstance
+    template_name = 'catalog/loanedBooksByUser.html'
+    def get(self,request):
+        loaned = BookInstance.objects.filter(status__exact="o").order_by('-due_back')
+        ctx = {'loanBooks':loaned}
         return render(request,self.template_name,ctx)
