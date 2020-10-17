@@ -1,0 +1,23 @@
+{% extends "catalog/base.html" %}
+{% block title %}
+<title>Loaned Books</title>
+{% endblock %}
+{% block content %}
+  <h3>Loaned Books</h3>
+  <hr>
+  {% if loanBooks %}
+     <ul>
+       {% for book in loanBooks %}
+        <li class={% if book.is_overdure %}text-danger{% else %}text-success{% endif %}>
+          <a href="{% url 'catalog:bookdetail' book.book.id %}">{{ book.book.title }} </a>(<small>due on</small> {{ book.due_back }})
+          {% if user.is_staff %}
+             <p style="float: right;">by <a href="#" style="text-decoration: none;">{{ book.borrower.username }}</a></p>
+          {% endif %}
+        </li>
+        <hr>
+       {% endfor %}
+     </ul>
+  {% else %}
+     <h2>You haven't loaned any books yet.</h2>
+  {% endif %}
+{% endblock %}
