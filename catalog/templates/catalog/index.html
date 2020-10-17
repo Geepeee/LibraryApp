@@ -15,4 +15,6 @@
       <li><strong>Copies Available:</strong> {{ totalBookAva }}</li>
       <li><strong>Total Authors:</strong> {{ totalAuthor }}</li>
     </ul>
+    <hr>
+    <p>You have visited the site <em><b>{{ num_visits }}</b></em>{% if num_visits == 1%} time{% else %} times{% endif %}.</p>
 {% endblock %}

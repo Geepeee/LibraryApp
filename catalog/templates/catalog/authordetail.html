@@ -1,0 +1,19 @@
+{% extends "catalog/base.html" %}
+{% block title %}
+  <title>About Author</title>
+{% endblock %}
+{% block content %}
+  <h2>About Author: <em>{{ author.first_name }} {{ author.last_name }}</em></h2>
+  <p><strong>DOB: </strong> {{ author.date_of_birth}}</p>
+  <p><strong>DOD: </strong> {{ author.date_of_death }}</p>
+  <hr>
+  <hr>
+  <h2>Books by the Author:</h2>
+  {% for book in books %}
+   <p><strong>Title: </strong>{{ book.title }}</p>
+   <p><strong>Summary: </strong>{{ book.summary }}</p>
+   <p><strong>Copies: </strong>{{ book.get_count }}</p>
+   <p><strong>ISBN: </strong>{{ book.isbn }}</p>
+   <hr>
+  {% endfor %}
+{% endblock %}

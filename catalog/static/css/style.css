@@ -1,0 +1,19 @@
+body {
+  background-color: #ededed;
+  margin-top: 60px;
+}
+
+.nostyle  a {
+  text-decoration: none;
+  color: blue;
+}
+
+.container {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.author {
+  text-decoration: none;
+  color: black;
+}

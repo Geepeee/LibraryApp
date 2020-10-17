@@ -29,6 +29,8 @@ class Book(models.Model):
 
     display_genre.short_description = "Genre"
 
+    def get_count(self):
+        return BookInstance.objects.filter(book=self.id).count()
 
     def __str__(self):
         """for representation of the table"""

@@ -1,0 +1,30 @@
+{% extends "catalog/base.html" %}
+{% block title %}
+    <title>Detail Page</title>
+{% endblock %}
+{% block content %}
+   <h1>Title: {{ book.title }}</h1>
+   <hr>
+   <p><strong>Author: </strong>{{ book.author }}</p>
+   <p><strong>Summary: </strong>{{ book.summary }}</p>
+   <p><strong>ISBN: </strong>{{ book.isbn }}</p>
+   <p><strong>Genre: </strong>{{ book.display_genre }}</p>
+   <p><strong>Language: </strong>{{ book.language }}</p>
+   <hr>
+   <hr>
+   <div class="">
+     <h2>Copies: </h2>
+     {% for copy in instances %}
+       <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm'%}text-danger
+       {% else %}text-warning{% endif %}">
+         {{ copy.get_status_display }}
+       </p>
+       {% if copy.status != 'a '%}
+           <p><strong>Due Date: </strong> {{ copy.due_back }}</p>
+       {% endif %}
+       <p><strong>Imprint: </strong>{{ copy.imprint }}</p>
+       <p class="text-muted"><strong>Id: </strong>{{ copy.id }}</p>
+       <hr>
+     {% endfor %}
+   </div>
+{% endblock %}

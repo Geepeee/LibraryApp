@@ -1,0 +1,23 @@
+{% extends "catalog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% if form.errors %}
+      <p>Your Username and Password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+       {% if user.is_authenticated %}
+         <p>Your account does not have access to this page. To Procede, Please login with the page which has.</p>
+       {% else %}
+         <p>Please login to access the page.</p>
+       {% endif %}
+    {% endif %}
+
+    <form class="" action="{% url 'login' %}" method="post">
+       {% csrf_token %}
+       {{ form | crispy }}
+       <input type="submit" name="Login" value="Login" class="btn btn-outline-info" style="margin-top: 10px;">
+       <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+    <p><a href="{% url 'password_reset' %}"><small>Lost Password?</small></a></p>
+{% endblock %}
