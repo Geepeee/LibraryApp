@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,get_object_or_404
 from catalog.models import Book,BookInstance,Author,Language,Genre
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView
 from django.db.models import Sum
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from catalog.forms import RenewLoanBook
+from django.urls import reverse_lazy
+import datetime
 # Create your views here.
 @login_required
 def index(request):
@@ -72,3 +75,53 @@ class LoanedBooksByAll(LoginRequiredMixin,ListView):
         loaned = BookInstance.objects.filter(status__exact="o").order_by('-due_back')
         ctx = {'loanBooks':loaned}
         return render(request,self.template_name,ctx)
+
+@permission_required('catalog.Can_mark_retuned')
+def renew_books(request,pk):
+
+    book_instance = get_object_or_404(BookInstance,id=pk)
+    if request.method == "POST":
+        form = RenewLoanBook(request.POST)
+        if form.is_valid():
+            book_instance.due_back = form.cleaned_data['renewal_date']
+            book_instance.save()
+            return redirect(reverse_lazy('catalog:allloanedbooks'))
+    else:
+        proposed_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        form = RenewLoanBook(initial={'renewal_date':proposed_date})
+    ctx = {
+       'book_instance':book_instance,
+       'form': form
+    }
+
+    return render(request,'catalog/renewal_book.html',ctx)
+
+class AuthorCreateView(LoginRequiredMixin,CreateView):
+    model = Author
+    fields = '__all__'
+    initial = {'date_of_death': '12/12/9999'}
+    template_name = 'catalog/author_form.html'
+    success_url = reverse_lazy('catalog:authors')
+
+class AuthorUpdateView(LoginRequiredMixin,UpdateView):
+    model = Author
+    fields = '__all__'
+    template_name = 'catalog/author_form.html'
+    success_url = reverse_lazy('catalog:authors')
+
+class AuthorDeleteView(LoginRequiredMixin,DeleteView):
+    model = Author
+    success_url = reverse_lazy('catalog:authors')
+    template_name = 'catalog/author_confirm_delete.html'
+
+class BoookCreateView(LoginRequiredMixin,CreateView):
+    model = Book
+    fields = '__all__'
+    template_name = 'catalog/book_form.html'
+    success_url = reverse_lazy('catalog:booklist')
+
+class BoookUpdateView(LoginRequiredMixin,UpdateView):
+    model = Book
+    fields = ['author','summary','genre']
+    template_name = 'catalog/book_form.html'
+    success_url = reverse_lazy('catalog:booklist')

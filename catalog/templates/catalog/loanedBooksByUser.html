@@ -9,9 +9,12 @@
      <ul>
        {% for book in loanBooks %}
         <li class={% if book.is_overdure %}text-danger{% else %}text-success{% endif %}>
-          <a href="{% url 'catalog:bookdetail' book.book.id %}">{{ book.book.title }} </a>(<small>due on</small> {{ book.due_back }})
+          <a href="{% url 'catalog:bookdetail' book.book.id %}">{{ book.book.title }} </a>(<small>due on</small> {{ book.due_back }}) |
+             borrowed by {{ book.borrower.username }}
           {% if user.is_staff %}
-             <p style="float: right;">by <a href="#" style="text-decoration: none;">{{ book.borrower.username }}</a></p>
+             <p style="float: right;">
+               <a href="{% url 'catalog:renew_book_librarian' book.id %}" style="text-decoration: none;" class="btn btn-outline-info">Renew</a>
+             </p>
           {% endif %}
         </li>
         <hr>

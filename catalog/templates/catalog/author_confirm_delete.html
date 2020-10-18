@@ -1,0 +1,12 @@
+{% extends "catalog/base.html" %}
+{% block title %}
+<title>Author Delete Page!</title>
+{% endblock %}
+{% block content %}
+   <p><strong>Are you want to delete the author?<strong> <strong class="text-danger">{{ author }}</strong></p>
+   <form class="" action="" method="post">
+     {% csrf_token %}
+     <input type="submit" name="Yes, Delete" value="Yes, Delete" class="btn btn-outline-info">
+     <a href="{% url 'catalog:authorDetail' author.id %}" class="btn btn-outline-danger">Cancel</a>
+   </form>
+{% endblock %}

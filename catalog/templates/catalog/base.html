@@ -34,22 +34,33 @@
               </li>
           </ul>
         </div>
-        <div class="logio">
-          {% if user.is_authenticated %}
-             {% if user.is_staff %}
-                <a href="{% url 'catalog:allloanedbooks' %}" style="margin-right: 15px;" class="btn btn-outline-info">AllBorrowedBooks</a>
-             {% else %}
-                <a href="{% url 'catalog:loanedbooks' %}" style="margin-right: 15px;" class="btn btn-outline-info">BorrowedBooks</a>
-             {% endif %}
-             <a href="{% url 'logout' %}" class="btn btn-outline-info">Logout</a>
-          {% else %}
-             <a href="{% url 'login' %}" class="btn btn-outline-info">Login</a>
-          {% endif %}
-        </div>
      </nav>
-     <div class="container">
-       {% block content %}
-       {% endblock %}
+     <div class="row">
+       <div class="col-2">
+          <nav class="navbar bg-dark">
+             <ul class="navbar-nav logio">
+               {% if user.is_authenticated %}
+                  {% if user.is_staff %}
+                     <li><a href="{% url 'catalog:allloanedbooks' %}" style="margin-right: 15px;">AllBorrowedBooks</a></li>
+                     <hr>
+                  {% else %}
+                     <li><a href="{% url 'catalog:loanedbooks' %}" style="margin-right: 15px;">BorrowedBooks</a></li>
+                     <hr>
+                  {% endif %}
+                  <li><a href="{% url 'logout' %}">Logout</a></li>
+                  <hr>
+               {% else %}
+                  <li><a href="{% url 'login' %}">Login</a></li>
+               {% endif %}
+             </ul>
+          </nav>
+       </div>
+       <div class="col-10">
+         <div class="container">
+           {% block content %}
+           {% endblock %}
+         </div>
+       </div>
      </div>
   </body>
 </html>

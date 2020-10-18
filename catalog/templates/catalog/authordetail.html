@@ -6,6 +6,10 @@
   <h2>About Author: <em>{{ author.first_name }} {{ author.last_name }}</em></h2>
   <p><strong>DOB: </strong> {{ author.date_of_birth}}</p>
   <p><strong>DOD: </strong> {{ author.date_of_death }}</p>
+  {% if user.is_staff %}
+     <a href="{% url 'catalog:authorupdate' author.id %}"><input type="submit" name="Update" value="Update" class="btn btn-outline-info"></a>
+     <a href="{% url 'catalog:authordelete' author.id %}"><input type="submit" name="Delete" value="Delete" class="btn btn-outline-danger"></a>
+  {% endif %}
   <hr>
   <hr>
   <h2>Books by the Author:</h2>

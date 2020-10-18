@@ -1,0 +1,19 @@
+{% extends "catalog/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<title>Renewal Book</title>
+{% endblock %}
+{% block content %}
+   <h2><strong>Renew: </strong>{{ book_instance.book.title }}</h2>
+   <hr>
+   <p><strong>Borrower: </strong>{{ book_instance.borrower }}</p>
+   <hr>
+   <p class="{% if book_instance.is_overdure %}text-danger{% else %}text-success{% endif %}"><strong>DueDate:</strong> {{ book_instance.due_back }}</p>
+   <hr>
+   <form class="" action="" method="post">
+     {% csrf_token %}
+     {{ form | crispy }}
+     <input type="submit" name="Renew" value="Renew" class="btn btn-outline-success">
+     <input class="btn btn-outline-danger" type="submit" name="Cancel" value="Cancel" onclick="window.location='{% url 'catalog:allloanedbooks' %}';return false;'">
+   </form>
+{% endblock %}
