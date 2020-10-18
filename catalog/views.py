@@ -114,14 +114,19 @@ class AuthorDeleteView(LoginRequiredMixin,DeleteView):
     success_url = reverse_lazy('catalog:authors')
     template_name = 'catalog/author_confirm_delete.html'
 
-class BoookCreateView(LoginRequiredMixin,CreateView):
+class BookCreateView(LoginRequiredMixin,CreateView):
     model = Book
     fields = '__all__'
     template_name = 'catalog/book_form.html'
     success_url = reverse_lazy('catalog:booklist')
 
-class BoookUpdateView(LoginRequiredMixin,UpdateView):
+class BookUpdateView(LoginRequiredMixin,UpdateView):
     model = Book
     fields = ['author','summary','genre']
     template_name = 'catalog/book_form.html'
+    success_url = reverse_lazy('catalog:booklist')
+
+class BookDeleteView(LoginRequiredMixin,DeleteView):
+    model = Book
+    template_name = 'catalog/book_confirm_delete.html'
     success_url = reverse_lazy('catalog:booklist')

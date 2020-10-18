@@ -1,0 +1,14 @@
+{% extends "catalog/base.html" %}
+{% block title %}
+<title>Book Delete Page!</title>
+{% endblock %}
+{% block content %}
+   <p><strong>Are you sure want to delete?</strong> <strong class="text-danger">{{ book.title }}</strong></p>
+   <p><small>Written by</small> {{ book.author }}.<p>
+   <hr>
+   <form class="" action="" method="post">
+      {% csrf_token %}
+      <input type="submit" name="Yes, Delete" value="Yes, Delete" class="btn btn-outline-info">
+      <a href="{% url 'catalog:bookdetail' book.id %}" class="btn btn-outline-danger">Cancel</a>
+   </form>
+{% endblock %}

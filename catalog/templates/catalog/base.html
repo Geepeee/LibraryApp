@@ -43,6 +43,9 @@
                   {% if user.is_staff %}
                      <li><a href="{% url 'catalog:allloanedbooks' %}" style="margin-right: 15px;">AllBorrowedBooks</a></li>
                      <hr>
+                     <li><a href="{% url 'catalog:bookcreate' %}" style="margin-right: 15px;">Add Book</a></li>
+                     <hr>
+                     <li><a href="{% url 'catalog:authorcreate' %}" style="margin-right: 15px;">Add Author</a></li>
                   {% else %}
                      <li><a href="{% url 'catalog:loanedbooks' %}" style="margin-right: 15px;">BorrowedBooks</a></li>
                      <hr>

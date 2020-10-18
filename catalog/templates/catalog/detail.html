@@ -10,6 +10,10 @@
    <p><strong>ISBN: </strong>{{ book.isbn }}</p>
    <p><strong>Genre: </strong>{{ book.display_genre }}</p>
    <p><strong>Language: </strong>{{ book.language }}</p>
+   {% if user.is_staff %}
+      <a href="{% url 'catalog:bookupdate' book.id %}" class="btn btn-outline-info">Update</a>
+      <a href="{% url 'catalog:bookdelete' book.id %}" class="btn btn-outline-danger">Delete</a>
+   {% endif %}
    <hr>
    <hr>
    <div class="">
