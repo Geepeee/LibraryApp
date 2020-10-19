@@ -2,6 +2,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 import datetime
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 class RenewLoanBook(forms.Form):
     renewal_date = forms.DateField(help_text="Enter the date between now and 4 week (default: 3).")
@@ -19,3 +21,10 @@ class RenewLoanBook(forms.Form):
             raise ValidationError(_("Invalid date - as date is more than 4 weeeks ahead."))
 
         return data
+
+class UserRegister(UserCreationForm):
+
+    contact = forms.CharField(required=True,max_length=12)
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name','email','contact','username','password1','password2']

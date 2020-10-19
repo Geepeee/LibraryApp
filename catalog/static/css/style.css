@@ -22,10 +22,12 @@ body {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  margin-left: 20px;
   border-radius: 5px;
 }
+.logio ul {
+  list-style-type: none;
 
+}
 .logio a:hover{
   background-color: white;
   color: black;
@@ -40,4 +42,23 @@ body {
 
 .col-2 {
   background-color: #ccbbf2;
+  margin-left: 20px;
+  height: 200px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table, th, td {
+  border: 0.5px solid black;
+  text-align: center;
+  padding: 20px;
+}
+table th {
+  background-color: green;
+  color: white;
+  text-align: center;
+  padding: 20px;
 }

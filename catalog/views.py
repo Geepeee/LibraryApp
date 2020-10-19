@@ -4,7 +4,7 @@ from django.views.generic import ListView,DetailView,CreateView,DeleteView,Updat
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from catalog.forms import RenewLoanBook
+from catalog.forms import RenewLoanBook,UserRegister
 from django.urls import reverse_lazy
 import datetime
 # Create your views here.
@@ -28,6 +28,23 @@ def index(request):
     }
 
     return render(request,'catalog/index.html',ctx)
+
+def register(request):
+    if request.method == "POST":
+        data = UserRegister(request.POST)
+        if data.is_valid():
+            data.save()
+            return redirect(reverse_lazy('login'))
+        else:
+            ctx = {'form': data}
+            return render(request,'catalog/register.html',ctx)
+    else:
+        userdata = UserRegister()
+    ctx = {
+       'form': userdata
+    }
+    return render(request,'catalog/register.html',ctx)
+
 
 class BookListView(ListView):
     model = Book

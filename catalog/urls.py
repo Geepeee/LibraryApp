@@ -4,6 +4,7 @@ from . import views
 app_name = 'catalog'
 
 urlpatterns = [
+
     path('',views.index, name="index"),
     path('books/',views.BookListView.as_view(), name="booklist"),
     path('books/<int:pk>/', views.BookDetailView.as_view(), name="bookdetail"),
@@ -18,4 +19,5 @@ urlpatterns = [
     path('books/add/',views.BookCreateView.as_view(),name="bookcreate"),
     path('books/<int:pk>/bookupp/',views.BookUpdateView.as_view(), name="bookupdate"),
     path('books/<int:pk>/bookdelete/',views.BookDeleteView.as_view(),name="bookdelete"),
+    path('register/',views.register, name="Userregister"),
 ]

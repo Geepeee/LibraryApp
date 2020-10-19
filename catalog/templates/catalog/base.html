@@ -37,8 +37,7 @@
      </nav>
      <div class="row">
        <div class="col-2">
-          <nav class="navbar bg-dark">
-             <ul class="navbar-nav logio">
+             <ul class="logio">
                {% if user.is_authenticated %}
                   {% if user.is_staff %}
                      <li><a href="{% url 'catalog:allloanedbooks' %}" style="margin-right: 15px;">AllBorrowedBooks</a></li>
@@ -50,15 +49,15 @@
                      <li><a href="{% url 'catalog:loanedbooks' %}" style="margin-right: 15px;">BorrowedBooks</a></li>
                      <hr>
                   {% endif %}
+                  <hr>
                   <li><a href="{% url 'logout' %}">Logout</a></li>
                   <hr>
                {% else %}
                   <li><a href="{% url 'login' %}">Login</a></li>
                {% endif %}
              </ul>
-          </nav>
        </div>
-       <div class="col-10">
+       <div class="col-9">
          <div class="container">
            {% block content %}
            {% endblock %}

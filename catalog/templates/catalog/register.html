@@ -1,0 +1,14 @@
+{% extends "catalog/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<title>Register Page!</title>
+{% endblock %}
+{% block content %}
+  <h3>Register Form</h3>
+  <hr>
+  <form class="" action="" method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <input type="submit" name="Register" value="Register" class="btn btn-outline-success">
+  </form>
+{% endblock %}

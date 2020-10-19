@@ -20,4 +20,6 @@
        <input type="hidden" name="next" value="{{ next }}" />
     </form>
     <p><a href="{% url 'password_reset' %}"><small>Lost Password?</small></a></p>
+    <hr>
+    <p><small class="text-info">Don't have an Account?</small><a href="{% url 'catalog:Userregister' %}" class="btn btn-outline-info">Sign Up</a></p>
 {% endblock %}
