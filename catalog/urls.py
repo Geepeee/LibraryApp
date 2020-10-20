@@ -20,4 +20,5 @@ urlpatterns = [
     path('books/<int:pk>/bookupp/',views.BookUpdateView.as_view(), name="bookupdate"),
     path('books/<int:pk>/bookdelete/',views.BookDeleteView.as_view(),name="bookdelete"),
     path('register/',views.register, name="Userregister"),
+    path('profile/<int:pk>/',views.UserProfile.as_view(),name="profile"),
 ]

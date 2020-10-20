@@ -1,0 +1,15 @@
+{% extends "catalog/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<title>Profile Page</title>
+{% endblock %}
+{% block content %}
+  <h3>Profile</h3>
+  <hr>
+  <form class="" action="" method="post">
+    {% csrf_token %}
+    {{ form | crispy  }}
+    <input type="submit" name="Update" value="Update" class="btn btn-outline-success">
+    <a href="{% url 'catalog:booklist' %}" class="btn btn-outline-danger">Cancel</a>
+  </form>
+{% endblock %}

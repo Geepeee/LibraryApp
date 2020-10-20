@@ -17,16 +17,20 @@
    <h2>List of all books</h2>
    <hr>
    {% if booklist %}
-     <table>
-       <tr>
-       <th>Book Name</th>
-       <th>Author</th>
-       </tr>
+      <table>
+        <tr>
+          <th>Books</th>
+          <th style="float:right;">Authors</th>
+        </tr>
+      </table>
+      <hr>
+      <ul>
        {% for book in booklist %}
-       <tr class="nostyle"><td><a href="{% url 'catalog:bookdetail' book.id %}">{{ book.title }} </a>
-         <a style="float: right;" href="{% url 'catalog:authorDetail' book.author.id %}">{{ book.author }}</a></td></tr>
+       <li class="nostyle"><a href="{% url 'catalog:bookdetail' book.id %}">{{ book.title }} </a>
+         <a style="float: right;" href="{% url 'catalog:authorDetail' book.author.id %}">{{ book.author }}</a></li>
+         <hr>
        {% endfor %}
-     </table>
+      </ul>
    {% else %}
       <h2>There are no books in the library.</h2>
       <small>Sorry for inconvience</small>

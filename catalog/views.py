@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from catalog.models import Book,BookInstance,Author,Language,Genre
+from catalog.models import Book,BookInstance,Author,Language,Genre,PhoneNumber
 from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from catalog.forms import RenewLoanBook,UserRegister
+from catalog.forms import RenewLoanBook,UserRegister,UserProfileForm,UserProfileDetails
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 import datetime
 # Create your views here.
 @login_required
@@ -41,7 +42,7 @@ def register(request):
     else:
         userdata = UserRegister()
     ctx = {
-       'form': userdata
+       'form': userdata,
     }
     return render(request,'catalog/register.html',ctx)
 
@@ -99,6 +100,7 @@ def renew_books(request,pk):
     book_instance = get_object_or_404(BookInstance,id=pk)
     if request.method == "POST":
         form = RenewLoanBook(request.POST)
+        print(form)
         if form.is_valid():
             book_instance.due_back = form.cleaned_data['renewal_date']
             book_instance.save()
@@ -147,3 +149,12 @@ class BookDeleteView(LoginRequiredMixin,DeleteView):
     model = Book
     template_name = 'catalog/book_confirm_delete.html'
     success_url = reverse_lazy('catalog:booklist')
+
+class UserProfile(UpdateView):
+    model = User
+    def get(self,request,pk):
+        user = UserProfileForm(instance=request.user)
+        ctx = {'form':user}
+        return render(request,'catalog/profile.html',ctx)
+    def post(self,request,pk):
+        user = get_object_or_404(User,id=pk)

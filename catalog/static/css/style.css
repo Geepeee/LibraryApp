@@ -6,8 +6,12 @@ body {
 .nostyle  a {
   text-decoration: none;
   color: blue;
+  margin-left: -40px;
 }
 
+.nostyle  {
+  list-style-type: none;
+}
 .container {
   background-color: white;
   border-radius: 5px;
@@ -23,10 +27,10 @@ body {
   color: black;
   font-weight: bold;
   border-radius: 5px;
+  margin-left: -40px;
 }
-.logio ul {
+.logio {
   list-style-type: none;
-
 }
 .logio a:hover{
   background-color: white;
@@ -43,22 +47,18 @@ body {
 .col-2 {
   background-color: #ccbbf2;
   margin-left: 20px;
-  height: 200px;
+  height: 100%;
+  border-radius: 5px;
 }
 
 table {
   border-collapse: collapse;
   width: 100%;
 }
-
-table, th, td {
-  border: 0.5px solid black;
-  text-align: center;
-  padding: 20px;
-}
-table th {
-  background-color: green;
-  color: white;
-  text-align: center;
-  padding: 20px;
+th {
+  color: #1a394f;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bolder;
+  height: 10px;
 }
