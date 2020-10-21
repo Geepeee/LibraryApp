@@ -86,11 +86,3 @@ class Language(models.Model):
     def __str__(self):
         """for representation of the model"""
         return self.name
-
-class PhoneNumber(models.Model):
-
-    userdetails = models.OneToOneField(User, on_delete=models.CASCADE,null=False)
-    contact = models.CharField(max_length=12)
-
-    def __str__(self):
-        return f"{self.userdetails.username}'s contact is {self.contact}"

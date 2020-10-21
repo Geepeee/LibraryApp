@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 import datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from catalog.models import PhoneNumber
+
 
 class RenewLoanBook(forms.Form):
     renewal_date = forms.DateField(help_text="Enter the date between now and 4 week (default: 3).")
