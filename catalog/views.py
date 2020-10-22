@@ -63,6 +63,7 @@ class BookDetailView(LoginRequiredMixin,DetailView):
         return render(request,'catalog/detail.html',ctx)
 class AuthorListView(ListView):
     model = Author
+    paginate_by = 2
     template_name = "catalog/author.html"
     def get(self,request):
         authors = Author.objects.all()
@@ -80,6 +81,7 @@ class AuthorDeatailView(LoginRequiredMixin,DetailView):
 
 class LoanedBooksByUser(LoginRequiredMixin,ListView):
     model = BookInstance
+    paginate_by = 8
     template_name = 'catalog/loanedBooksByUser.html'
     def get(self,request):
         loaned = BookInstance.objects.filter(borrower=self.request.user).filter(status__exact="o").order_by('-due_back')
