@@ -5,7 +5,7 @@ from catalog.models import (Author,BookInstance,Genre,
 from django.utils import timezone
 from django.contrib.auth.models import User
 import datetime
-
+import uuid
 
 class AuthorListViewTest(TestCase):
 
@@ -123,3 +123,105 @@ class LoanedBookByUserModelTest(TestCase):
             else:
                 self.assertTrue(last_date<=book.due_back)
                 last_date = book.due_back
+
+class RenewalBookInstanceViewTest(TestCase):
+
+    def setUp(self):
+        test_user1 = User.objects.create(username="Rakesh",password="Python@1996")
+        test_user2 = User.objects.create(username="Prathap",password="Cloths@1012")
+        test_user1.is_super = True
+        test_user1.save()
+        test_user2.save()
+
+        test_author=Author.objects.create(first_name="Harlod",last_name="Finch")
+        test_genre = Genre.objects.create(name="Fiction")
+        test_language = Language.objects.create(name='Hindi')
+        test_book = Book.objects.create(title="Title only",
+                                        author=test_author,
+                                        summary='Good book',
+                                        isbn="ABCHRF",
+                                        language=test_language,)
+        genre_objects = Genre.objects.all()
+        test_book.genre.set(genre_objects)
+        test_book.save()
+
+        return_date = datetime.date.today()+datetime.timedelta(days=5)
+        self.test_bookInstance1 = BookInstance.objects.create(book=test_book,
+                                       imprint='Unimport,2020',
+                                       due_back=return_date,
+                                       borrower=test_user1,
+                                       status='o',)
+        self.test_bookInstance2 = BookInstance.objects.create(book=test_book,
+                                       imprint='Unimport,2020',
+                                       due_back=return_date,
+                                       borrower=test_user2,
+                                       status='o',)
+
+    def test_redirect_if_not_loggedIn(self):
+        response = self.client.get(reverse('catalog:renew_book_librarian',
+                                           kwargs={'pk':self.test_bookInstance1.pk}))
+        self.assertEqual(response.status_code,302)
+        self.assertTrue(response.url.startswith('/accounts/login/'))
+
+    def test_logged_in_no_permission(self):
+        login = self.client.login(username="Prathap",password="Cloths@1012")
+        response = self.client.get(reverse('catalog:renew_book_librarian',
+                                           kwargs={'pk':self.test_bookInstance1.pk}))
+        self.assertEqual(response.status_code,403)
+
+    def test_logged_in_with_permission(self):
+        login = self.client.login(username="Rakesh",password="Python@1996")
+        response = self.client.get(reverse('catalog:renew_book_librarian',
+                                           kwargs={'pk':self.test_bookInstance1.pk}))
+        self.assertEqual(response.status_code,200)
+    def test_toView_other_borrwed_book(self):
+        login = self.client.login(username="Rakesh",password="Python@1996")
+        response = self.client.get(reverse('catalog:renew_book_librarian',
+                                           kwargs={'pk':self.test_bookInstance1.pk}))
+        self.assertEqual(response.status_code,200)
+
+    def test_for_noBookInstance5(self):
+        test_uuid = uuid.uuid4()
+        login = self.client.login(username="Rakesh",password="Python@1996")
+        response = self.client.get(reverse('catalog:renew_book_librarian',
+                                           kwargs={'pk':test_uuid}))
+        self.assertEqual(response.status_code,404)
+
+    def test_uses_crct_template(self):
+        login = self.client.login(username="Rakesh",password="Python@1996")
+        response = self.client.get(reverse('catalog:renew_book_librarian',
+                                           kwargs={'pk':self.test_bookInstance1.pk}))
+        self.assertEqual(response.status_code,200)
+        self.assertTemplateUsed(respone,"catalog/loanedBooksByUser.html")
+
+    def test_inital_renewal_date_shown_in_view(self):
+        login = self.client.login(username="Rakesh",password="Python@1996")
+        response = self.client.get(reverse('catalog:renew_book_librarian',
+                                           kwargs={'pk':self.test_bookInstance1.pk}))
+        self.assertEqual(response.status_code,200)
+        date_3_week_future=datetime.date.today()+datetime.timedelta(weeks=3)
+        self.assertEqual(response.context['renewal_date'],date_3_week_future)
+
+    def test_redirects_all_borrowed_books(self):
+        login = self.client.login(username="Rakesh",password="Python@1996")
+        valid_future_date = datetime.date.today()+datetime.timedelta(weeks=2)
+        response = self.client.post(reverse('catalog:renew_book_librarian',kwargs={'pk':
+                                            self.test_bookInstance1.pk}))
+        self.assertRedirect(response,reverse('catalog:allloanedbooks'))
+
+    def test_form_invalid_renewal_date(self):
+        login = self.client.login(username="Rakesh",password="Python@1996")
+        date_in_past = datetime.date.today() - datetime.timedelta(weeks=2)
+        response = self.client.post(reverse('catalog:renew_book_librarian',
+                kwargs={'pk':self.test_bookInstance1.pk}),{'renewal_date':date_in_past})
+        self.assertEqual(response.status_code,200)
+        self.assertFormError(response,'form','renewal_date','Renewal date is in Past.')
+
+    def test_form_renewal_date_future(self):
+        login = self.client.login(username="Rakesh",password="Python@1996")
+        date_in_past = datetime.date.today() + datetime.timedelta(weeks=5)
+        response = self.client.post(reverse('catalog:renew_book_librarian',
+                kwargs={'pk':self.test_bookInstance1.pk}),{'renewal_date':date_in_past})
+        self.assertEqual(response.status_code,200)
+        self.assertFormError(response,'form','renewal_date',
+                   'Invalid date - as date is more than 4 weeeks ahead.')

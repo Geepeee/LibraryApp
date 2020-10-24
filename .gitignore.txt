@@ -1,0 +1,5 @@
+#Text Backup files
+*.bak
+
+#Database
+*.sqllite3
