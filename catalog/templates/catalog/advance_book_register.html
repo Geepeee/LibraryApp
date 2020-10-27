@@ -1,0 +1,23 @@
+{% extends "catalog/base.html" %}
+{% block title %}
+<title>Advance Book Register</title>
+{% endblock %}
+{% block content %}
+  <button type="button" data-toggle="modal" data-target="#Mymodal" class="btn btn-success">Add Queue</button>
+  <div class="modal fade" role="dialog" id="Mymodal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Request Form For Advance Book</h2>
+          <button type="button" name="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" name="button" class="btn btn-success">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

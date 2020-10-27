@@ -8,6 +8,7 @@ from catalog.forms import RenewLoanBook,UserRegister,UserProfileForm,UserProfile
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 import datetime
+from django.contrib import messages
 # Create your views here.
 @login_required
 def index(request):
@@ -35,6 +36,7 @@ def register(request):
         data = UserRegister(request.POST)
         if data.is_valid():
             data.save()
+            messages.success(request,f"You account is successfully created.")
             return redirect(reverse_lazy('login'))
         else:
             ctx = {'form': data}
@@ -56,9 +58,14 @@ class BookDetailView(LoginRequiredMixin,DetailView):
     model = Book
 
     def get(sef,request,pk):
-
         book = Book.objects.get(id=pk)
         bookins = BookInstance.objects.filter(book=pk)
+        bookcount = BookInstance.objects.filter(book=pk).count()
+        bookcountAva = BookInstance.objects.filter(book=pk).filter(status__exact="a").count()
+        if bookcountAva > 0:
+            diffbooks = bookcountAva
+            ctx = {'book':book,'instances':bookins,'availablebooks':diffbooks}
+            return render(request,'catalog/detail.html',ctx)
         ctx = {'book':book,'instances':bookins}
         return render(request,'catalog/detail.html',ctx)
 class AuthorListView(ListView):

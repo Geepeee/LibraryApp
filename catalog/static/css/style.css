@@ -6,7 +6,6 @@ body {
 .nostyle  a {
   text-decoration: none;
   color: blue;
-  margin-left: -40px;
 }
 
 .nostyle  {
@@ -35,7 +34,8 @@ body {
 .logio a:hover{
   background-color: white;
   color: black;
-  border-radius: 5px
+  border-radius: 5px;
+  padding: 10px;
 }
 
 #navbarcollapse a:hover {
@@ -44,7 +44,7 @@ body {
   border-radius: 5px
 }
 
-.col-2 {
+.col-2 .logio{
   background-color: #ccbbf2;
   margin-left: 20px;
   height: 100%;

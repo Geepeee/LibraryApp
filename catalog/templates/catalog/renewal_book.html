@@ -14,6 +14,6 @@
      {% csrf_token %}
      {{ form | crispy }}
      <input type="submit" name="Renew" value="Renew" class="btn btn-outline-success">
-     <input class="btn btn-outline-danger" type="submit" name="Cancel" value="Cancel" onclick="window.location='{% url 'catalog:allloanedbooks' %}';return false;'">
+     <input class="btn btn-outline-danger" type="submit" name="Cancel" value="Cancel" onclick="window.location='{% url 'catalog:allloanedbooks' %}';return false;">
    </form>
 {% endblock %}
