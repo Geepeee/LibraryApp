@@ -15,6 +15,10 @@
              <p style="float: right;">
                <a href="{% url 'catalog:renew_book_librarian' book.id %}" style="text-decoration: none;" class="btn btn-outline-info">Renew</a>
              </p>
+          {% else %}
+            <p style="float: right;" class={% if book.is_overdure %}text-danger{% else %}text-success{% endif %}>
+              <a href="{% url 'catalog:ReturnBook' book.id %}" style="text-decoration: none;" class="btn btn-outline-success">Return</a>
+            </p>
           {% endif %}
         </li>
         <hr>

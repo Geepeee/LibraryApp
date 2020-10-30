@@ -64,7 +64,11 @@ class BookDetailView(LoginRequiredMixin,DetailView):
         bookcountAva = BookInstance.objects.filter(book=pk).filter(status__exact="a").count()
         if bookcountAva > 0:
             diffbooks = bookcountAva
-            ctx = {'book':book,'instances':bookins,'availablebooks':diffbooks}
+            requestBook = BookInstance.objects.filter(book=pk).filter(status__exact="a").first()
+            proposed_date = datetime.date.today() + datetime.timedelta(weeks=3)
+            form = RenewLoanBook(initial={'renewal_date':proposed_date})
+            ctx = {'book':book,'instances':bookins,'availablebooks':diffbooks,
+                   'requestbook':requestBook,'form':form}
             return render(request,'catalog/detail.html',ctx)
         ctx = {'book':book,'instances':bookins}
         return render(request,'catalog/detail.html',ctx)
@@ -167,3 +171,61 @@ class UserProfile(UpdateView):
         return render(request,'catalog/profile.html',ctx)
     def post(self,request,pk):
         user = get_object_or_404(User,id=pk)
+
+class LoanBookReturn(LoginRequiredMixin,ListView):
+
+    model = BookInstance
+    template_name = 'catalog/loanedBooksByUser.html'
+    def get(self,request,pk):
+        book = BookInstance.objects.get(id=pk)
+        book.status = 'r'
+        book.save()
+        loaned = BookInstance.objects.filter(borrower=self.request.user).filter(status__exact="o").order_by('-due_back')
+        ctx = {'loanBooks':loaned}
+        return render(request,self.template_name,ctx)
+
+class MakeBooksAvailable(LoginRequiredMixin,ListView):
+
+    def get(self,request,**kwargs):
+        if (kwargs):
+            bookstatus = BookInstance.objects.get(id=kwargs['pk'])
+            if bookstatus.status == 'r':
+                bookstatus.status = 'a'
+                bookstatus.due_back = None
+                bookstatus.borrower = None
+                bookstatus.save()
+            if bookstatus.status == 'R':
+                bookstatus.status = 'o'
+                bookstatus.due_back = datetime.date.today()+datetime.timedelta(weeks=3)
+                bookstatus.save()
+        loanBooks = BookInstance.objects.filter(status__exact="r").order_by('-due_back')
+        requestb = BookInstance.objects.filter(status__exact="R").order_by('-due_back')
+        ctx = {'loanBooks':loanBooks,
+                'requestb':requestb}
+        return render(request,'catalog/returnbook.html',ctx)
+
+class RequestAdvanceBook(LoginRequiredMixin,ListView):
+    model = BookInstance
+    def get(self,request,pk):
+        booksave = BookInstance.objects.get(id=pk)
+        booksave.status = 'A'
+        booksave.save()
+        book = Book.objects.get(id=pk)
+        bookins = BookInstance.objects.filter(book=pk)
+        bookcount = BookInstance.objects.filter(book=pk).count()
+        bookcountAva = BookInstance.objects.filter(book=pk).filter(status__exact="a").count()
+        if bookcountAva > 0:
+            diffbooks = bookcountAva
+            ctx = {'book':book,'instances':bookins,'availablebooks':diffbooks}
+            return render(request,'catalog/detail.html',ctx)
+        ctx = {'book':book,'instances':bookins}
+        return render(request,'catalog/detail.html',ctx)
+
+class RequestBook(LoginRequiredMixin,ListView):
+    model = BookInstance
+    def get(self,request,pk):
+        bookstatus = BookInstance.objects.get(id=pk)
+        bookstatus.status = 'R'
+        bookstatus.borrower = request.user
+        bookstatus.save()
+        return redirect(reverse_lazy('catalog:bookdetail',kwargs={'pk':bookstatus.book.id}))

@@ -16,6 +16,37 @@
    {% else %}
       {% if availablebooks %}
       <button type="button" name="button" class="btn btn-success">{{ availablebooks }}</button>
+      <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#Newmodal">
+        Request a Book</button>
+      <div class="modal fade" role="dialog" id="Newmodal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4>Book Request</h4>
+              <button type="button" name="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form class="" action="index.html" method="post">
+                {% csrf_token %}
+                <label for="#bkname">title: </label>
+                <input type="text" name="bkname" id="bkname" class="form-control" value="{{ requestbook.book.title }}">
+                <label for="#bkauthor">Author: </label>
+                <input type="text" name="bkauthor" id="bkauthor" class="form-control" value="{{ requestbook.book.author }}">
+                <label for="#bkid">Unique Id:</label>
+                <input type="text" name="bkid" id="bkid" class="form-control" value="{{ requestbook.id }}">
+                <label for="#borro">Borrower: </label>
+                <input type="text" name="borrowe" id='borro'class="form-control"value="{{ request.user.username }}">
+                <div class="modal-footer">
+                  <button type="button" name="button" class="btn btn-success">
+                    <a href="{% url 'catalog:requestbook' requestbook.id %}" style="text-decoration:none;color:white;">Submit</a>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
       {% else %}
         <div class="jumbotron" style="height: 200px;">
          <h4>No copies are available at the moment.</h4>
@@ -30,6 +61,7 @@
               </div>
               <div class="modal-body">
                 <form class="" action="" method="post">
+                  {% csrf_token %}
                   <label for="Bookname">Book:</label>
                   <input type="text" value="{{ book.title }}" class="form-control" id="Bookname">
                   <label for="Bookauthor">Author:</label>

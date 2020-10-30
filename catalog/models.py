@@ -46,7 +46,7 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
 
-    LOAN_STATUS = (('m','Maintenance'),('o','On Loan'),('a','Available'),('r', 'Received'))
+    LOAN_STATUS = (('m','Maintenance'),('o','On Loan'),('a','Available'),('r', 'Received'),('R','Request'),('A','AdvanceRequest'))
     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True,default='m', help_text="Book Availability")
     borrower = models.ForeignKey(User,on_delete=models.SET_NULL, null=True,blank=True)
 

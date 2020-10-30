@@ -37,24 +37,26 @@
      </nav>
      <div class="row">
        <div class="col-2">
-             <ul class="logio">
+             <ul class="nav logio">
                {% if user.is_authenticated %}
                   {% if user.is_staff %}
-                     <li><a href="{% url 'catalog:allloanedbooks' %}" style="margin-right: 15px;">AllBorrowedBooks</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:allloanedbooks' %}" style="margin-right: 15px;">AllBorrowedBooks</a></li>
                      <hr>
-                     <li><a href="{% url 'catalog:bookcreate' %}" style="margin-right: 15px;">Add Book</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:bookcreate' %}" style="margin-right: 15px;">Add Book</a></li>
                      <hr>
-                     <li><a href="{% url 'catalog:authorcreate' %}" style="margin-right: 15px;">Add Author</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:authorcreate' %}" style="margin-right: 15px;">Add Author</a></li>
+                     <hr>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:makeavailable' %}" style="margin-right: 15px;">Inbox</a></li>
                      <hr>
                   {% else %}
-                     <li><a href="{% url 'catalog:loanedbooks' %}" style="margin-right: 15px;">BorrowedBooks</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:loanedbooks' %}" style="margin-right: 15px;">BorrowedBooks</a></li>
                      <hr>
                   {% endif %}
-                  <li><a href="{% url 'catalog:profile' user.id %}">Profile</li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'catalog:profile' user.id %}">Profile</li>
                   <hr>
-                  <li><a href="{% url 'logout' %}">Logout</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                {% else %}
-                  <li><a href="{% url 'login' %}">Login</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                {% endif %}
              </ul>
        </div>

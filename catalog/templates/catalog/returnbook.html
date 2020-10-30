@@ -12,7 +12,7 @@
         <a href="{% url 'catalog:bookdetail' book.book.id %}">{{ book.book.title }} </a>(<small>due on</small> {{ book.due_back }}) |
            borrowed by {{ book.borrower.username }}
            <p style="float: right;">
-            <a href="{% url 'catalog:returnupdate1' book.id %}" style="text-decoration: none;margin-bottom: 10px;"
+            <a href="{% url 'catalog:makeavailable1' book.id %}" style="text-decoration: none;margin-bottom: 10px;"
             class="btn btn-success">Received</a>
            </p>
       </li>
@@ -29,9 +29,9 @@
   {% for book in requestb %}
    <li class={% if book.is_overdure %}text-danger{% else %}text-success{% endif %}>
      <a href="{% url 'catalog:bookdetail' book.book.id %}">{{ book.book.title }} </a>(<small>due on</small> {{ book.due_back }}) |
-        borrowed by {{ book.borrower.username }}
+        Requested by {{ book.borrower.username }}
         <p style="float: right;">
-         <a href="{% url 'catalog:makeavailable' book.id %}" style="text-decoration: none;margin-bottom: 10px;"
+         <a href="{% url 'catalog:makeavailable1' book.id%}" style="text-decoration: none;margin-bottom: 10px;"
          class="btn btn-success">Approve</a>
         </p>
    </li>

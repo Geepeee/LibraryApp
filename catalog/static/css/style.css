@@ -26,7 +26,6 @@ body {
   color: black;
   font-weight: bold;
   border-radius: 5px;
-  margin-left: -40px;
 }
 .logio {
   list-style-type: none;
@@ -44,9 +43,8 @@ body {
   border-radius: 5px
 }
 
-.col-2 .logio{
+.logio{
   background-color: #ccbbf2;
-  margin-left: 20px;
   height: 100%;
   border-radius: 5px;
 }

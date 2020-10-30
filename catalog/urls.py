@@ -21,4 +21,8 @@ urlpatterns = [
     path('books/<int:pk>/bookdelete/',views.BookDeleteView.as_view(),name="bookdelete"),
     path('register/',views.register, name="Userregister"),
     path('profile/<int:pk>/',views.UserProfile.as_view(),name="profile"),
+    path('book/<uuid:pk>/return/',views.LoanBookReturn.as_view(),name="ReturnBook"),
+    path('books/available/',views.MakeBooksAvailable.as_view(),name="makeavailable"),
+    path('books/<uuid:pk>/available/',views.MakeBooksAvailable.as_view(),name="makeavailable1"),
+    path('books/<uuid:pk>/request/',views.RequestBook.as_view(),name="requestbook"),
 ]
