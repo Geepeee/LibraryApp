@@ -29,7 +29,7 @@ SECRET_KEY = 'lq7$05)i@*^0b@&^(mi33$3a!*of=2@di6o359q02+dsfxnx*2'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['https://mydjangolocallibrary.herokuapp.com/']
+ALLOWED_HOSTS = ['mydjangolocallibrary.herokuapp.com']
 
 
 # Application definition
