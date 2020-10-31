@@ -40,20 +40,14 @@
              <ul class="nav logio">
                {% if user.is_authenticated %}
                   {% if user.is_staff %}
-                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:allloanedbooks' %}" style="margin-right: 15px;">AllBorrowedBooks</a></li>
-                     <hr>
-                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:bookcreate' %}" style="margin-right: 15px;">Add Book</a></li>
-                     <hr>
-                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:authorcreate' %}" style="margin-right: 15px;">Add Author</a></li>
-                     <hr>
-                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:makeavailable' %}" style="margin-right: 15px;">Inbox</a></li>
-                     <hr>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:allloanedbooks' %}">AllBorrowedBooks</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:bookcreate' %}">Add Book</a></li
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:authorcreate' %}">Add Author</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:makeavailable' %}">Inbox</a></li>
                   {% else %}
-                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:loanedbooks' %}" style="margin-right: 15px;">BorrowedBooks</a></li>
-                     <hr>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:loanedbooks' %}">BorrowedBooks</a></li>
                   {% endif %}
                   <li class="nav-item"><a class="nav-link" href="{% url 'catalog:profile' user.id %}">Profile</li>
-                  <hr>
                   <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                {% else %}
                   <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
@@ -70,7 +64,21 @@
            {% block content %}
            {% endblock %}
          </div>
+         <div style="background-color: white;">
+         <h3>About the Application.</h3>
+         <ul>
+           <li>User need to register first inorder to access the books.</li>
+           <li>User can take as many book as they want.</li>
+           <li>Once the books is borrowed, the return period will <strong>3 weeks</strong> from the date of book borrowed.</li>
+           <li>In order to get the book, user must request for the book, based on the availability which is shown in the book
+               detail page.</li>
+           <li>Once the request is done, the librarian can aprrove the book. After the approval, the book is loaned to the requested user,
+               same can be seen in the user, Borrowed book page.</li>
+         </ul>
+         <hr>
+         <h4>Future Updates,</h4>
        </div>
-     </div>
+       </div>
+      </div>
   </body>
 </html>
