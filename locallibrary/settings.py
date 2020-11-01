@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','lq7$05)i@*^0b@&^(mi33$3a!*of=2@
 #DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['mydjangolocallibrary.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
